@@ -21,6 +21,7 @@ from transformers import AutoModel, AutoTokenizer
 import pymupdf as fitz
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import utils.device_compat  # noqa: F401 - Enables safe CPU & GPU execution
 from utils.process_unlimitedOCR2 import convert
 
 
@@ -50,6 +51,7 @@ def main():
     parser.add_argument("--pdf", default="Unlimited-OCR-2.pdf", help="Input PDF path")
     parser.add_argument("--max-pages", type=int, default=None, help="Max pages to process (None = all)")
     parser.add_argument("--crop-mode", choices=["auto", "gundam", "base"], default="base", help="Cropping mode")
+    parser.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"], help="Device to run on")
     parser.add_argument("--max-new-tokens", type=int, default=16384, help="Max tokens budget")
     parser.add_argument("--dpi", type=int, default=150, help="DPI for PDF rendering")
     parser.add_argument("--output-json", default="test_docs/benchmark_result.json", help="Path to save benchmark JSON")
@@ -70,8 +72,13 @@ def main():
     print(f"CPU Cores       : {os.cpu_count()} (PyTorch threads: {torch.get_num_threads()})")
     print("==========================================================\n")
 
+    if args.device == "auto":
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+    else:
+        device = args.device
+
     bench_data = {
-        "device": "cpu",
+        "device": device,
         "cpu_count": os.cpu_count(),
         "torch_threads": torch.get_num_threads(),
         "crop_mode": args.crop_mode,
@@ -90,13 +97,14 @@ def main():
     # 2. Model Loading
     t0 = time.time()
     model_name = "baidu/Unlimited-OCR-2"
+    print(f"[INFO] Loading model '{model_name}' on {device}...", file=sys.stderr)
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
     model = AutoModel.from_pretrained(
         model_name,
         trust_remote_code=True,
         use_safetensors=True,
         torch_dtype=torch.bfloat16,
-    ).eval().to("cpu")
+    ).eval().to(device)
     t_load = time.time() - t0
     bench_data["model_load_time_sec"] = round(t_load, 2)
     bench_data["post_load_rss_mb"] = get_rss_mb()

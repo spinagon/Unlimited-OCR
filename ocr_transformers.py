@@ -22,6 +22,7 @@ import pymupdf as fitz
 
 # Add current directory to path for utils import
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import utils.device_compat  # noqa: F401 - Enables safe CPU & GPU execution
 from utils.process_unlimitedOCR2 import convert
 
 
@@ -69,6 +70,11 @@ def main():
         device = "cuda" if torch.cuda.is_available() else "cpu"
     else:
         device = args.device
+
+    if device == "cuda" and not torch.cuda.is_available():
+        sys.exit("[ERROR] CUDA was selected but torch.cuda.is_available() is False. Ensure an NVIDIA GPU is available and PyTorch with CUDA is installed.")
+    elif device == "cpu":
+        print("[INFO] Running on CPU (device compatibility active). Tip: Use '--crop-mode base' for faster processing on CPU.", file=sys.stderr)
 
     dtype = torch.bfloat16 if args.dtype == "bfloat16" else torch.float32
     print(f"[INFO] Loading model '{args.model_name}' on {device} ({dtype})...", file=sys.stderr)
