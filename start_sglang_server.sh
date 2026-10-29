@@ -6,11 +6,6 @@ set -e
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$DIR"
 
-# Activate virtual environment
-if [ -d "$DIR/.venv" ]; then
-    source "$DIR/.venv/bin/activate"
-fi
-
 # Environment knobs for long document processing
 export SGLANG_UOCR_EANABLE_DOC_LIMIT=1
 export SGLANG_UOCR_DOC_GUNDAM_PAGE_WINDOW=10
@@ -27,7 +22,7 @@ HOST="${2:-0.0.0.0}"
 
 echo "Starting Unlimited-OCR-2 SGLang server on http://$HOST:$PORT ..."
 
-python -m sglang.launch_server \
+uv run python -m sglang.launch_server \
     --model-path baidu/Unlimited-OCR-2 \
     --served-model-name Unlimited-OCR-2 \
     --chat-template unlimited-ocr \

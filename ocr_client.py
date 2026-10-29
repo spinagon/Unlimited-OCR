@@ -21,7 +21,15 @@ import tempfile
 
 import pymupdf as fitz
 import requests
-from sglang.srt.sampling.custom_logit_processor import DeepseekOCRNoRepeatNGramLogitProcessor
+
+try:
+    from sglang.srt.sampling.custom_logit_processor import DeepseekOCRNoRepeatNGramLogitProcessor
+    DEFAULT_NGRAM_PROCESSOR = DeepseekOCRNoRepeatNGramLogitProcessor.to_str()
+except ImportError:
+    # Serialized SGLang callable for DeepseekOCRNoRepeatNGramLogitProcessor
+    DEFAULT_NGRAM_PROCESSOR = json.dumps({
+        "callable": "80049559000000000000008c2a73676c616e672e7372742e73616d706c696e672e637573746f6d5f6c6f6769745f70726f636573736f72948c26446565707365656b4f43524e6f5265706561744e4772616d4c6f6769745f70726f636573736f729493942e"
+    })
 
 # Add current directory to path for utils import
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -55,7 +63,7 @@ def build_content(image_paths):
 
 
 def generate(server_url, image_paths, crop_mode=True, tokens_per_page=8000, stream=True):
-    ngram_processor = DeepseekOCRNoRepeatNGramLogitProcessor.to_str()
+    ngram_processor = DEFAULT_NGRAM_PROCESSOR
     window_size = 1024 if len(image_paths) > 1 else 128
     payload = {
         "model": "Unlimited-OCR-2",
