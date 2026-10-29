@@ -1,0 +1,17 @@
+{
+  "device": "cpu",
+  "cpu_count": 4,
+  "torch_threads": 4,
+  "crop_mode": "base",
+  "pdf_name": "Unlimited-OCR-2.pdf",
+  "total_doc_pages": 15,
+  "processed_pages": 1,
+  "pdf_render_time_sec": 0.19,
+  "model_load_time_sec": 8.9,
+  "post_load_rss_mb": 730.76,
+  "inference_time_sec": 324.38,
+  "generated_tokens": 479,
+  "overall_tokens_per_sec": 1.48,
+  "peak_rss_mb": 6675.32,
+  "markdown_convert_time_sec": 0.0012
+}

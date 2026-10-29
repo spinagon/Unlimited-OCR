@@ -1,0 +1,5 @@
+<PAGE><BLOCK>title[81, 74, 549, 100]<FORK>Unlimited OCR Test Document
+<BLOCK>title[82, 140, 236, 158]<FORK>1. Introduction
+<BLOCK>text[81, 178, 761, 231]<FORK>This document is a verification sample for Baidu Unlimited-OCR-2. The model performs layout analysis, text transcription, and markdown conversion. Deep learning models provide end-to-end optical character recognition.
+<BLOCK>title[81, 270, 279, 290]<FORK>2. Summary Table
+<BLOCK>table[81, 308, 442, 391]<FORK><table><tr><td>Item</td><td>Value</td></tr><tr><td>Model Name</td><td>Unlimited-OCR-2</td></tr><tr><td>Architecture</td><td>Vision MoE</td></tr><tr><td>Status</td><td>Operational</td></tr></table>

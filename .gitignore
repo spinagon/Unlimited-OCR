@@ -27,8 +27,21 @@ htmlcov/
 
 # Local runtime outputs
 outputs/
+output/
+raw/
+pred/
 log/
 *.log
+pdf_ocr_*/
+test_docs/bench_pages/
+
+# Model weights and caches
+*.safetensors
+*.bin
+*.pt
+*.pth
+models/
+weights/
 
 # OS and editor files
 .DS_Store
