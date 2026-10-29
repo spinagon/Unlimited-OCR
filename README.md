@@ -28,7 +28,7 @@
   <a href="https://arxiv.org/abs/2606.23050">
     <img alt="arXiv" src="https://img.shields.io/badge/arXiv-Unlimited OCR Works-b31b1b?logo=arxiv&logoColor=white" />
   </a>
-    <a href="https://github.com/baidu/Unlimited-OCR/blob/Unlimited-OCR-2/Unlimited-OCR-2.pdf">
+    <a href="https://github.com/baidu/Unlimited-OCR/blob/main/Unlimited-OCR-2.pdf">
     <img alt="arXiv" src="https://img.shields.io/badge/arXiv-Unlimited OCR Works 2-b31b1b?logo=arxiv&logoColor=white" />
   </a>
   <a href="https://x.com/Baidu_Inc" target="_blank">
@@ -111,12 +111,12 @@ text = model.infer(tokenizer, image_file="your_doc/page_1.jpg",
 ### SGLang
 
 Set up the environment (uv-managed virtualenv, Python 3.10) and install the customized SGLang wheel
-`sglang-0.5.20.dev10+g8d62f5fb9c-py3-none-any.whl`, plus PyMuPDF for PDF-to-image conversion:
+`sglang-0.5.20.dev13+g75b9b06b02-py3-none-any.whl`, plus PyMuPDF for PDF-to-image conversion:
 ```shell
 uv venv --python 3.10
 source .venv/bin/activate
 
-uv pip install wheel/sglang-0.5.20.dev10+g8d62f5fb9c-py3-none-any.whl
+uv pip install wheel/sglang-0.5.20.dev13+g75b9b06b02-py3-none-any.whl
 uv pip install pymupdf==1.27.2.2
 uv pip install fastokens==0.3.2
 ```
